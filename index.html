@@ -73,7 +73,7 @@
             as mass, position, velocity and so on. The fundamental idea is to estimate fluid properties at any point by
             averaging the contributions from neighboring particles.
             </br>
-            A block diagram of SPH is shown below. Every particle do pressure calculation, force computation, and time
+            A block diagram of SPH is shown below. Every particle does pressure calculation, force computation, and time
             integration independently, so parallelism can be fully exploited in these steps.
         </p>
     </div>
@@ -85,8 +85,9 @@
 
     <div class="section">
         <h2>THE CHALLENGE</h2>
-        <p>1. NEIGHBOR SEARCH IN IRREGULAR 3D SPACE: The fundamental challenge lies in efficiently finding neighboring
-            particles within the smoothing radius for each particle. In dynamic simulations, particles move freely,
+        <p>Most challenges lie in the step of density calculation</p>
+        <p>1. NEIGHBOR SEARCH IN IRREGULAR 3D SPACE: One major challenge is to efficiently
+            find neighbors for each particle. In dynamic simulations, particles move freely,
             creating constantly changing neighborhoods that can't be predicted in advance. A brute-force approach of
             checking every particle against every other particle results in O(N²) complexity, which becomes expensive as
             particle counts increase into the thousands.</p>
@@ -97,7 +98,7 @@
         <p>3. KERNEL EVALUATION OVERHEAD: Each neighbor interaction requires evaluating complex smoothing kernel
             functions involving square roots and high-order polynomials. These mathematical operations are
             computationally expensive when performed thousands of times per simulation step.</p>
-        <p>4. LOAD BALANCING: In parallel computing environments, the varying number of neighbors per particle creates
+        <p>4. LOAD BALANCING: The varying number of neighbors per particle creates
             significant load imbalance. Some threads finish quickly while others lag behind, reducing overall
             utilization of computational resources. This thread divergence is particularly problematic on GPU
             architectures designed for uniform workloads.</p>
@@ -117,7 +118,7 @@
             <p><strong>Plan to achieve:</strong> Simulate water flowing down the trough into the sink </p>
             <p><strong>Hope to achieve:</strong> Turn the trough into a curved pipe which is a more complex geometry
             </p>
-            <p><strong>Fallback goals:</strong> Only simulate water flowing in a rectangular sink </p>
+            <p><strong>Fallback goals:</strong> Only simulate water flowing in a rectangular sink, which is a trivial task as Grid Solver</p>
             <p><strong>Poster session targets:</strong> Run real-time water simulation demo </p>
         </div>
 
@@ -134,7 +135,7 @@
                 <li><strong>Week 2 (03/31 - 04/06):</strong> Run demo showing water flowing in a rectangular sink </li>
                 <li><strong>Week 3 (04/07 - 04/13):</strong> Run demo showing water flowing down a trough, and finish
                     project milestone report</li>
-                <li><strong>Week 4 (04/14 - 04/20):</strong> Optimize density calculation step </li>
+                <li><strong>Week 4 (04/14 - 04/20):</strong> Optimize density calculation performance </li>
                 <li><strong>Week 5 (04/21 - 04/27):</strong> Final preparations and testing</li>
             </ul>
         </div>
