@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPH Fluid Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1,
+        h2 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+
+        .introduction {
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Parallel Smoothed Particle Hydrodynamics Fluid Solver</h1>
+        <div class="introduction">Team Members: Zhixin Chen, Wencheng Zhang</div>
+        <a href="https://ous4ll4olvzt.larksuite.com/wiki/TH4iwK6phikiC4kXCDQurphqsCg">Project Proposal</a>
+    </header>
+
+    <div class="section">
+        <h2>SUMMARY</h2>
+        <p>We are going to implement an optimized Smoothed Particle Hydrodynamics (SPH) fluid
+            solver on the NVIDIA GPUs in the lab. Specifically we are simulating water flowing down the trough into a
+            sink as shown in the image below.</p>
+    </div>
+
+
+
+    <div style="display: flex; justify-content: center;">
+        <img src="https://raw.githubusercontent.com/wcvanvan/SPH-CUDA-Web/main/images/model.png" alt="Model Image"
+            width="500">
+    </div>
+
+
+    <div class="section">
+        <h2>BACKGROUND</h2>
+        <p> In SPH, fluids are represented by particles, and each particle carries properties such
+            as mass, position, velocity and so on. The fundamental idea is to estimate fluid properties at any point by
+            averaging the contributions from neighboring particles.
+            </br>
+            A block diagram of SPH is shown below. Every particle do pressure calculation, force computation, and time
+            integration independently, so parallelism can be fully exploited in these steps.
+        </p>
+    </div>
+
+    <div style="display: flex; justify-content: center;">
+        <img src="https://raw.githubusercontent.com/wcvanvan/SPH-CUDA-Web/main/images/SPH-steps.png"
+            alt="SPH-steps Image" width="200">
+    </div>
+
+    <div class="section">
+        <h2>THE CHALLENGE</h2>
+        <p>1. NEIGHBOR SEARCH IN IRREGULAR 3D SPACE: The fundamental challenge lies in efficiently finding neighboring
+            particles within the smoothing radius for each particle. In dynamic simulations, particles move freely,
+            creating constantly changing neighborhoods that can't be predicted in advance. A brute-force approach of
+            checking every particle against every other particle results in O(N²) complexity, which becomes expensive as
+            particle counts increase into the thousands.</p>
+        <p>2. COMMUNICATION AND DATA DEPENDENCIES: Density calculation requires each particle to gather position data
+            from all its neighbors, creating significant communication overhead. This data dependency means particles
+            cannot be processed independently, leading to potential bottlenecks in parallel implementations. The
+            irregular memory access patterns also hurt cache performance, further reducing computational efficiency.</p>
+        <p>3. KERNEL EVALUATION OVERHEAD: Each neighbor interaction requires evaluating complex smoothing kernel
+            functions involving square roots and high-order polynomials. These mathematical operations are
+            computationally expensive when performed thousands of times per simulation step.</p>
+        <p>4. LOAD BALANCING: In parallel computing environments, the varying number of neighbors per particle creates
+            significant load imbalance. Some threads finish quickly while others lag behind, reducing overall
+            utilization of computational resources. This thread divergence is particularly problematic on GPU
+            architectures designed for uniform workloads.</p>
+
+        <div class="section">
+            <h2>RESOURCES</h2>
+            <ul>
+                <li>Computers: GHC Computers with NVIDIA GPUs</li>
+                <li>Starter code: Start from scratch</li>
+                <li>References: Müller, Matthias & Charypar, David & Gross, Markus. (2003). Particle-Based Fluid
+                    Simulation for Interactive Applications. Fluid Dynamics. 2003. 154-159. </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>GOALS AND DELIVERABLES</h2>
+            <p><strong>Plan to achieve:</strong> Simulate water flowing down the trough into the sink </p>
+            <p><strong>Hope to achieve:</strong> Turn the trough into a curved pipe which is a more complex geometry
+            </p>
+            <p><strong>Fallback goals:</strong> Only simulate water flowing in a rectangular sink </p>
+            <p><strong>Poster session targets:</strong> Run real-time water simulation demo </p>
+        </div>
+
+        <div class="section">
+            <h2>PLATFORM CHOICE</h2>
+            <p>In fluid simulation, thousands of particles are required as a minimum for a decent demo. Nvidia RTX 2080
+                can easily handle thousands of concurrent threads, which perfectly suits our needs. </p>
+        </div>
+
+        <div class="section">
+            <h2>SCHEDULE</h2>
+            <ul>
+                <li><strong>Week 1 (03/26 - 03/30):</strong> Read the reference paper and start coding </li>
+                <li><strong>Week 2 (03/31 - 04/06):</strong> Run demo showing water flowing in a rectangular sink </li>
+                <li><strong>Week 3 (04/07 - 04/13):</strong> Run demo showing water flowing down a trough, and finish
+                    project milestone report</li>
+                <li><strong>Week 4 (04/14 - 04/20):</strong> Optimize density calculation step </li>
+                <li><strong>Week 5 (04/21 - 04/27):</strong> Final preparations and testing</li>
+            </ul>
+        </div>
+</body>
+
+</html>
