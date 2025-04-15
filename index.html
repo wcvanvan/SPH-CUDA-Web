@@ -15,6 +15,14 @@
             color: #333;
         }
 
+        .completed {
+            color: green;
+        }
+
+        .completed::before {
+            content: "✓ ";
+        }
+
         h1,
         h2 {
             color: #2c3e50;
@@ -50,7 +58,7 @@
         <h1>Parallel Smoothed Particle Hydrodynamics Fluid Solver</h1>
         <div class="introduction">Team Members: Zhixin Chen, Wencheng Zhang</div>
         <a href="https://ous4ll4olvzt.larksuite.com/wiki/TH4iwK6phikiC4kXCDQurphqsCg">Project Proposal</a>
-        <br/>
+        <br />
         <a href="https://ous4ll4olvzt.sg.larksuite.com/wiki/FhUQwAKWOiTvj3krqrmlZQKigi8">Milestone Report</a>
     </header>
 
@@ -120,7 +128,8 @@
             <p><strong>Plan to achieve:</strong> Simulate water flowing down the trough into the sink </p>
             <p><strong>Hope to achieve:</strong> Turn the trough into a curved pipe which is a more complex geometry
             </p>
-            <p><strong>Fallback goals:</strong> Only simulate water flowing in a rectangular sink, which is a trivial task as Grid Solver</p>
+            <p><strong>Fallback goals:</strong> Only simulate water flowing in a rectangular sink, which is a trivial
+                task as Grid Solver</p>
             <p><strong>Poster session targets:</strong> Run real-time water simulation demo </p>
         </div>
 
@@ -133,11 +142,10 @@
         <div class="section">
             <h2>SCHEDULE</h2>
             <ul>
-                <li><strong>Week 1 (03/26 - 03/30):</strong> Read the reference paper and start coding </li>
-                <li><strong>Week 2 (03/31 - 04/06):</strong> Run demo showing water flowing in a rectangular sink </li>
-                <li><strong>Week 3 (04/07 - 04/13):</strong> Run demo showing water flowing down a trough, and finish
-                    project milestone report</li>
-                <li><strong>Week 4 (04/14 - 04/20):</strong> Optimize density calculation performance </li>
+                <li class="completed"><strong>Week 1 (03/26 - 03/30):</strong> Read the reference paper and start coding</li>
+                <li class="completed"><strong>Week 2 (03/31 - 04/06):</strong> Run demo showing water flowing in a rectangular sink</li>
+                <li class="completed"><strong>Week 3 (04/07 - 04/15):</strong> Run demo showing water flowing down a trough, and finish project milestone report</li>
+                <li><strong>Week 4 (04/16 - 04/20):</strong> Optimize density calculation performance </li>
                 <li><strong>Week 5 (04/21 - 04/27):</strong> Final preparations and testing</li>
             </ul>
         </div>
